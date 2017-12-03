@@ -1,8 +1,8 @@
 import express from 'express';
 import canvas from 'canvas';
 import React from 'react';
-import createObjectURL from 'create-object-url';
-import revokeObjectURL from 'revoke-object-url';
+//import createObjectURL from 'create-object-url';
+//import revokeObjectURL from 'revoke-object-url';
 import { renderToString } from 'react-dom/server';
 import template from './template';
 import ScreenTest from './src/screenTest.js';
@@ -19,9 +19,9 @@ server.get('/sscr', (req, res) => {
 });
 
 server.get('/toSVG', (req, res) => {
-  const Image = canvas.Image;
-  const canvas = new Canvas (200,200);
-  const ctx = canvas.getContext('2d');
+  //const Image = canvas.Image;
+  //const canvas = new Canvas (200,200);
+  //const ctx = canvas.getContext('2d');
   const svgData = `<svg width="200" height="200">
   <rect width="100%" height="100%" fill="gray" />
     <foreignObject width="100%" height="100%">
@@ -30,7 +30,7 @@ server.get('/toSVG', (req, res) => {
   </svg>`;
 
 
-const img = new Image();
+/*const img = new Image();
 const svg = new Blob([svgData], {type: 'image/svg+xml'});
 const url = createObjectURL(svg);
 
@@ -40,7 +40,7 @@ img.onload = function() {
   console.log('I think I rendered sth!');
 }
 
-img.src = url;
+img.src = url;*/
   res.send(`
   <svg width="200" height="200">
     <rect width="100%" height="100%" fill="gray" />
@@ -48,7 +48,7 @@ img.src = url;
       ${renderToString(<SVGTest />)}
     </foreignObject>
   </svg>
-  `)
+  `);
 });
 
 server.listen(8080);

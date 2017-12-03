@@ -8,10 +8,15 @@
   "author": "mikey",
   "license": "MIT",
   "dependencies": {
+    "babel-plugin-axiom": "^1.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "bw-axiom": "^30.5.0",
     "canvas": "^1.6.7",
     "create-object-url": "^1.0.2",
     "express": "^4.16.2",
+    "extract-text-webpack-plugin": "^3.0.2",
     "path": "^0.12.7",
     "postcss": "^6.0.14",
     "postcss-cssnext": "^3.0.2",
@@ -19,6 +24,7 @@
     "puppeteer": "^0.13.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-hot-loader": "^3.1.3",
     "revoke-object-url": "^1.0.2"
   },
   "devDependencies": {

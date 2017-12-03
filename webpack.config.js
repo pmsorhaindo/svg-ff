@@ -1,11 +1,12 @@
 const path = require("path");
 const webpack = require("webpack");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 var fs = require('fs');
 
 const nodeModules = {};
 fs.readdirSync('node_modules')
     .filter(function(x) {
-        return ['.bin'].indexOf(x) === -1;
+        return ['.bin', 'bw-axiom'].indexOf(x) === -1;
     })
     .forEach(function(mod) {
         nodeModules[mod] = 'commonjs ' + mod;
@@ -28,10 +29,14 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ["loader", "postcss-loader"]
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       }
     ]
-  }
+  },
+  plugins: [
+    new ExtractTextPlugin({
+    })
+  ]
 };
 
 module.exports = config;
