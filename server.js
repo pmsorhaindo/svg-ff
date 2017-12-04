@@ -1,8 +1,6 @@
 import express from 'express';
-import canvas from 'canvas';
+import { Canvas, Image } from 'canvas';
 import React from 'react';
-import createObjectURL from 'create-object-url';
-import revokeObjectURL from 'revoke-object-url';
 import { renderToString } from 'react-dom/server';
 import template from './template';
 import ScreenTest from './src/screenTest.js';
@@ -19,7 +17,7 @@ server.get('/sscr', (req, res) => {
 });
 
 server.get('/toSVG', (req, res) => {
-  const Image = canvas.Image;
+  const Image = Image;
   const canvas = new Canvas (200,200);
   const ctx = canvas.getContext('2d');
   const svgData = `<svg width="200" height="200">
@@ -29,18 +27,32 @@ server.get('/toSVG', (req, res) => {
     </foreignObject>
   </svg>`;
 
+  fs.writeFile('svgTest.svg', svgData, (err) => {
+    if (err) throw err;
+    console.log('The file has been saved!');
+  });
 
-const img = new Image();
-const svg = new Blob([svgData], {type: 'image/svg+xml'});
-const url = createObjectURL(svg);
+  fs.readFile(__dirname + '/svgTest.svg', function(err, squid){
+    if (err) throw err;
+    img = new Image;
+    img.src = squid;
+    ctx.drawImage(img, 0, 0, img.width / 4, img.height / 4);
+    const out = fs.createWriteStream(__dirname + '/omgitworks.png')
+    const stream = canvas.pngStream();
+  
+    stream.on('data', function(chunk){
+      out.write(chunk);
+    });
+    
+    stream.on('end', function(){
+      console.log('The PNG stream ended');
+    });
+    
+    out.on('finish', function(){
+      console.log('The PNG file was created.');
+    });
+  });
 
-img.onload = function() {
-  ctx.drawImage(img, 0, 0);
-  revokeObjectURL(url);
-  console.log('I think I rendered sth!');
-}
-
-img.src = url;
   res.send(`
   <svg width="200" height="200">
     <rect width="100%" height="100%" fill="gray" />
